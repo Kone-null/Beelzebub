@@ -28,6 +28,7 @@ void Make_exe(const char * head);
 
 bool Is_dir(const char * path);
 
+void Execute(const char * head_path);
 
 int main()
 {
